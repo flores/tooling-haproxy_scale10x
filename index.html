@@ -1,0 +1,211 @@
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,600italic,700italic,300,400,800' rel='stylesheet' type='text/css'>
+  <link href="https://raw.github.com/bartaz/impress.js/master/css/impress-demo.css" rel="stylesheet" />
+  <script language="javascript" type="text/javascript" src="http://thejit.org/static/v20/Jit/jit-yc.js"></script>
+  <script language="javascript" type="text/javascript" src="cluster_diagram.js"></script>
+  <style>
+  #infovis {
+    position:relative;
+    width:1000px;
+    height:700px;
+    margin:auto;
+    overflow:hidden;
+    font-color: black;
+    font-family: "Lucida Grande", Verdana;
+    font-size: 0.5em;
+    text-align: center;
+    background-color: black;
+  }
+  #log {
+    position:relative;
+    top:10px;
+    font-size:0em;
+    font-weight:bold;
+    color:#23A4FF;
+  }
+  #infovis-canvaswidget {
+    margin:25px 0 0 25px;
+  }
+  #gist1 {
+    width:800px;
+    height:700px;
+  }
+  backend {
+    font-size: 0.5em;
+  }
+  </style>
+</head>
+
+<body onload="init();">
+
+  <div id="impress" class="impress-not-supported">
+
+  <div class="fallback-message">
+  </div>
+
+  <div class="step" data-x="750" data-y="-200" data-scale="4.5">
+    We love HAProxy
+  </div>
+
+  <div class="step" data-x="-1000" data-y="300">
+    <q>
+    <strong>Really Fast, Configurable</strong>
+    <ul>epoll, kqueue</ul>
+    <ul>event driven, single process</ul>
+    <ul>pcre-based acls</ul>
+    <ul>match on any header</ul>
+    <ul>queues, frontends/backends, hot-spares, enable/disable servers...</ul>
+    </q>
+  </div>
+
+
+  <div class="step" data-x="0" data-y="300">
+    <q>
+    <strong>Mature</strong>
+    <ul>production since 2002 (v1.1)</ul>
+    <ul>108000 http requests/sec</ul>
+    <ul>claims to have never crashed (?!?)</ul>
+    <ul>written by Willy Tarreau</ul>
+    </q>
+  </div>
+
+  <div class="step" data-x="1000" data-y="300">
+    <img src="/img/happy-cuteness-overload-l.png">
+  </div>
+  
+  <div class="step" data-x="-1000" data-y="4000" data-scale="5">
+  
+    <div id="log">
+    </div>
+
+    <div id="infovis">
+    </div>
+
+  </div>
+
+  <div class="step" data-x="2900" data-y="2400">
+    <q>
+      but that configuration
+    </q>
+  </div>
+
+  <div class="step" data-x="3000" data-y="2800">
+    <div id="gist1">
+      <img src="/img/hairy_proxy.png">
+    </div>
+  </div>
+
+  <div class="step" data-x="2900" data-y="3100">
+    <q>
+      gets hairy fast
+    </q>
+  </div>
+
+  <div class="step" data-x="2900" data-y="3160">
+    <q>
+      enter <a href="https://github.com/joewilliams/haproxy_join">haproxy_join</a>
+    </q>
+  </div>
+  
+  <div class="step" data-x="2900" data-y="3220">
+    <q>
+      <a href="https://github.com/joewilliams">github.com/joewilliams</a>
+    </q>
+  </div>
+  
+  <div class="slide step" data-x="3500" data-y="2600">
+    /etc/haproxy/conf/global.cfg
+    <pre>
+  global 
+    log 127.0.0.1 local0 notice
+    maxconn 50000
+    daemon 
+    stats socket /tmp/proxystats level admin
+    </pre>
+  </div>
+
+  <div class="slide step" data-x="4500" data-y="2600">
+    /etc/haproxy/conf/defaults.cfg
+    <pre>
+  defaults
+    log global 
+    mode http 
+    option httplog 
+    option dontlognull 
+    stats enable 
+    stats uri /proxystats   
+    stats auth some:supersecretcredential
+    stats refresh 5s 
+    contimeout 120000
+    clitimeout 120000
+    srvtimeout 120000
+    option redispatch
+    option forwardfor
+    option http-server-close
+    </pre>
+  </div>
+
+  <div class="slide step" data-x="3500" data-y="3500">
+    /etc/haproxy/conf/frontend.d/http.cfg
+    <pre>
+  frontend http
+    bind :80
+    acl rightfqdn hdr(host) www.ourdomain.com
+    acl static url_reg (html|js|css|png|jpg|gif)$
+    acl static url_beg /static
+    acl api url_beg /api
+    acl mobile  url_beg /mobile
+    acl blog  url_beg /blog
+    redirect location http://www.ourdomain.com if !rightfqdn
+    use_backend static if static
+    use_backend api if api
+    use_backend mobile if mobile
+    use_backend blog if blog
+    default_backend static
+  </pre>
+  </div>
+
+  <div class="slide step" data-x="4500" data-y="3500">
+    /etc/haproxy/conf/backend.d/api.cfg
+    <pre id="backend">
+  backend api
+    mode http
+    balance leastconn
+    monitor-uri /api_app_check
+    server api1 10.10.30.1:80 check inter 60s rise 5 fall 2
+    server api2 10.10.30.2:80 check inter 60s rise 5 fall 2
+    server api3 10.10.30.3:80 check inter 60s rise 5 fall 2
+    server api4 10.10.30.4:80 check inter 60s rise 5 fall 2
+    server api5 10.10.30.5:80 check inter 60s rise 5 fall 2
+    server api6 10.10.30.6:80 check inter 60s rise 5 fall 2
+    server api7 10.10.30.7:80 check inter 60s rise 5 fall 2
+    server api8 10.10.30.8:80 check inter 60s rise 5 fall 2
+    server api9 10.10.30.9:80 check inter 60s rise 5 fall 2
+    server api10 10.10.30.10:80 check inter 60s rise 5 fall 2
+    ...
+  </pre>
+  </div>
+
+  <div class="slide step" data-x="3500" data-y="4400">
+    <q>Then recombine the configuration</q>
+    <pre>haproxy_join haproxy.cfg /etc/haproxy/</pre>
+  </div>
+
+  <div class="slide step" data-x="4500" data-y="4400">
+    <q>
+      worth noting there's a wonderful alternative at
+      <a href='https://github.com/finnlabs/haproxy'>github.com/finnlabs/haproxy</a>
+    </q>
+  </div>
+
+  <div class="step" data-x="0" data-y="6000">
+    blah blah haproxyctl
+  </div>
+
+  </div>
+  <script src="https://raw.github.com/bartaz/impress.js/master/js/impress.js"></script>
+	
+
+
+
+</body>
