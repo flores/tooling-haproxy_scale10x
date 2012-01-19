@@ -33,6 +33,7 @@
   backend {
     font-size: 0.5em;
   }
+  pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; font-family: "Courier"; font-size:0.8em; }
   </style>
 </head>
 
@@ -50,12 +51,8 @@
     <q>Carlo Flores</q>
   </div>
 
-  <div class="step" data-x="-2070" data-y="225">
-    <q>spire.io</q>
-  </div>
-
-  <div class="step" data-x="-2150" data-y="225">
-    <q>lo@</q>
+  <div class="step" data-x="-2170" data-y="225">
+    <q>www.spire.io</q>
   </div>
 
   <div class="step" data-x="-2280" data-y="300">
@@ -65,6 +62,9 @@
   <div class="step" data-x="-2360" data-y="375">
     github.com/flores | @lolcatstevens
   </div>
+  <div class="step" data-x="600" data-y="-500" data-scale="5">
+    Tooling around with HAProxy
+  </div>
 
   <div class="step" data-x="1100" data-y="-200" data-scale="5">
     We love HAProxy
@@ -72,7 +72,7 @@
 
   <div class="step" data-x="-1000" data-y="300">
     <q>
-    <strong>Really Fast, Configurable</strong>
+    <strong>Fast, Configurable, Manageable</strong>
     <ul>
     <li>epoll, kqueue</li>
     <li>event driven, single process</li>
@@ -258,36 +258,200 @@
 
   <div class="step" data-x="-750" data-y="7100">
     <ul>
-    <li>same junk</li>
-    <li>just really ugly</li>
-    <li>hard to work with</li>
+    <li>same features</li>
+    <li>but not friendly</li>
     <li>despite being on the cli</li>
     </ul>
-  </div>
-
-  <div class="step" data-x="750" data-y="6300">
-    What I wanted: a ctl script for humans and programs
   </div>
 
   <div class="step" data-x="750" data-y="6450">
     enter haproxyctl
   </div>
-  
-  <div class="step" data-x="750" data-y="6600">
+  <div class="step" data-x="750" data-y="6510">
     <a href="http://github.com/flores/haproxyctl">github.com/flores/haproxyctl</a>
   </div>
   
-  
-  <div class="step" data-x="1250" data-y="6450">
-    (dis|en)able a server from every backend it appears
+  <div class="step" data-x="1750" data-y="6100">
+    Health checks for programs or humans
+  </div>
+
+  <div class="slide step" data-x="1750" data-y="6510">
+    <pre>
+    # ./haproxyctl nagios
+    OK has listener + guys connected
+    </pre>
+    <pre>
+    # ./haproxyctl cloudkick
+    ./haproxyctl cloudkick    
+    status ok haproxy is running
+    metric connections int 1200
+    metric http_FRONTEND_request_rate int 451
+    metric http_FRONTEND_health_check_duration int 45
+    metric static_ngnix1_total_requests gauge 4720
+    metric static_ngnix1_health_check_duration int 7
+    metric static_ngnix2_total_requests gauge 4759
+    metric static_ngnix2_health_check_duration int 8
+    metric static_ngnix3_total_requests gauge 4571
+    metric static_ngnix3_health_check_duration int 8
+    ...
+    metric static_BACKEND_total_requests gauge 27839
+    metric static_BACKEND_health_check_duration int 45
+    </pre>
+
+  </div> 
+
+  <div class="slide step" data-x="1750" data-y="7410">
+    <pre>
+    # ./haproxyctl "show health"
+      pxname          svname             status  weight
+    http              FRONTEND		         OPEN       
+    static            ngnix1	         UP       1  
+    static            ngnix2	         UP       1  
+    static            ngnix3	         UP       1  
+    static            nginx4	         UP       1  
+    static            nginx5	         UP       1  
+    static            nginx6	         DOWN     1  
+    static            nginx7	         UP       1  
+    static            nginx8	         UP       1  
+    static            nginx9	         UP       1  
+    static            nginx10	         UP       1  
+    static            BACKEND              UP       9  
+    ...
+    </pre>
+  </div>
+
+  <div class="slide step" data-x="1750" data-y="8310">
+    <pre>
+        ./haproxyctl "show backends"
+    static            BACKEND              UP        9
+    api               BACKEND              UP       20
+    mobile            BACKEND              UP       20
+    blogs             BACKEND              UP        3
+    redis             BACKEND              UP        1
+    mysql             BACKEND              UP        2
+    </pre>
+    <pre>
+        ./haproxyctl reload
+    gracefully stopping connections on pid 23162...
+    checking if connections still alive on 23162...
+    reloaded haproxy on pid 1119
+    </pre>
+  </div>
+
+  <div class="step" data-x="2750" data-y="6100">
+    (dis|en)able a server from every backend
   </div>
   
-  <div class="step" data-x="1250" data-y="6600">
-    (dis|en)able all servers <strong>except</strong> for a target server
+  <div class="slide step" data-x="2750" data-y="6510">
+    <pre>
+      ./haproxyctl "show health"
+    # pxname        svname               status  weight
+    http            FRONTEND             OPEN       
+    api             api1                 UP      1
+    api             api2                 UP      1  
+    api             api3                 UP      1  
+    api             BACKEND              UP      3  
+    abusers         api1                 UP      1  
+    abusers         api2                 UP      1  
+    abusers         api3                 UP      1  
+    abusers         BACKEND              UP      3
+    </pre>
   </div>
     
-  <div class="step" data-x="1250" data-y="6750">
-    Health checks for both programs and humans
+                                                   
+  <div class="slide step" data-x="2750" data-y="7410">
+    <pre>
+      ./haproxyctl "disable all api1"
+
+      ./haproxyctl "show health"
+    # pxname        svname               status  weight
+    http            FRONTEND             OPEN
+    api             api1                 DOWN    1
+    api             api2                 UP      1
+    api             api3                 UP      1
+    api             BACKEND              UP      2
+    abusers         api1                 DOWN    1
+    abusers         api2                 UP      1
+    abusers         api3                 UP      1
+    abusers         BACKEND              UP      2
+    </pre>
+  </div>
+    
+  
+  <div class="slide step" data-x="2750" data-y="8310">
+    <q> and more, too ... 
+    <ul>
+      <li>Ruby gem (rhapr)</li>
+      <li>manage multiple HAProxies</li>
+      <li>easy libs</li>
+    </ul>
+    </q>
+  </div>
+
+  <div class="step" data-x="-750" data-y="7500" data-scale="2">
+    Links!
+  </div>
+
+  <div class="step" data-x="-1750" data-y="7700">
+    <q>
+    HAProxy:<br/>
+    <a href="http://haproxy.1wt.eu/">haproxy.1wt.eu</a>
+    </q>
+  </div>
+
+  <div class="step" data-x="-1750" data-y="7850">
+    <q>
+    haproxy_join: <a href="https://github.com/joewilliams/haproxy_join">github.com/joewilliams/haproxy_join</a>
+    </q>
+  </div>
+
+  <div class="step" data-x="-1750" data-y="8000">
+    <q>
+    haproxyctl:<br/>
+    <a href="https://github.com/flores/haproxyctl">github.com/flores/haproxyctl</a>
+    </q>
+  </div>
+
+  <div class="step" data-x="-750" data-y="7800">
+    <q>
+    And if you liked the slides:<br/>
+    impress.js:<br/>
+    <a href="http://bartaz.github.com/impress.js">github.com/bartaz/impress.js</a>
+    </q>
+  </div>
+
+  <div class="step" data-x="-750" data-y="8000">
+    <q>
+    The server diagram is a json object:<br/>
+    <a href="http://thejit.org/">thejit.org</a>
+    </q>
+  </div>
+
+  <div class="step" data-x="-1250" data-y="8200">
+    <q>
+    <a href="http://meetup.com/ladevops">meetup.com/ladevops</a>
+    </q>
+  </div>
+  
+  <div class="step" data-x="-1500" data-y="8400">
+    <q>
+    lo@spire.io
+    </q>
+  </div>
+
+  <div class="step" data-x="-1150" data-y="8400">
+    <q>
+    @lolcatstevens
+    </q>
+  </div>
+  
+  <div class="step" data-x="-700" data-y="8400">
+    <q>
+    <a href="https://github.com/flores">github.com/flores</a>
+    </q>
+  </div>
+
+  <div class="step" data-x="-1250" data-y="7950" data-scale="2"> 
   </div>
 
   </div>
