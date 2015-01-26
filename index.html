@@ -1,6 +1,6 @@
 <head>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,600italic,700italic,300,400,800' rel='stylesheet' type='text/css'>
-  <link href="https://raw.github.com/flores/impress.js/master/css/impress-demo.css" rel="stylesheet" />
+  <link href="css/impress-demo.css" rel="stylesheet" />
   <script language="javascript" type="text/javascript" src="js/jit-yc.js"></script>
   <script language="javascript" type="text/javascript" src="js/cluster_diagram.js"></script>
   <style>
@@ -51,20 +51,33 @@
     <q>Carlo Flores</q>
   </div>
 
-  <div class="step" data-x="-2170" data-y="225">
-    <q>www.spire.io</q>
+
+  <div class="step" data-x="-2250" data-y="250">
+    <q>meetup.com/LADevOps</q><br />
   </div>
 
-  <div class="step" data-x="-2280" data-y="300">
-    <q>meetup.com/LADevOps</q>
+  <div class="step" data-x="-2080" data-y="300">
+    <q>js.la</q>
   </div>
 
+  <div class="step" data-x="-2320" data-y="450">
+    Verizon Digital Media Services
+  </div>
+
+  <div class="step" data-x="-2370" data-y="600">
+    (this software is not used at my job)
+  </div>
+  
+  <div class="step" data-x="-2290" data-y="650">
+    we're hiring for other stuff!
+  </div>
+  
   <div class="step" data-x="600" data-y="-500" data-scale="5">
-    Tooling around with HAProxy
+    Tooling around HAProxy
   </div>
 
-  <div class="step" data-x="1100" data-y="-200" data-scale="5">
-    We love HAProxy
+  <div class="step" data-x="400" data-y="-300" data-scale="4">
+    and lessons learned along the way
   </div>
 
   <div class="step" data-x="-1000" data-y="300">
@@ -76,6 +89,7 @@
     <li>pcre-based acls</li>
     <li>match on any header</li>
     <li>queues, frontends/backends, hot-spares, enable/disable servers...</li>
+    <li>native SSL support (v 1.5), OCSP stapling, PROXY protocol...</li>
     </ul>
     </q>
   </div>
@@ -86,15 +100,15 @@
     <strong>Mature</strong>
     <ul>
     <li>production since 2002 (v1.1)</li>
-    <li>108000 http requests/sec</li>
-    <li>claims to have never crashed (?!?)</li>
+    <li>100,000+ http requests/sec</li>
+    <li>great support community and mailing list</li>
     <li>written by Willy Tarreau</li>
     </ul>
     </q>
   </div>
 
-  <div class="step" data-x="1000" data-y="300">
-    <img src="/img/happy-cuteness-overload-l.png">
+  <div class="step" data-x="2000" data-y="300" data-scale="3">
+    <img src="http://moar.edgecats.net/cats/tipincat.gif">
   </div>
 
   <div class="step" data-x="0" data-y="1500">
@@ -119,7 +133,7 @@
 
   <div class="step" data-x="3000" data-y="2800">
     <div id="gist1">
-      <img src="/img/hairy_proxy.png">
+      <img src="img/hairy_proxy.png">
     </div>
   </div>
 
@@ -205,11 +219,6 @@
     server api3 10.10.30.3:80 check inter 60s rise 5 fall 2
     server api4 10.10.30.4:80 check inter 60s rise 5 fall 2
     server api5 10.10.30.5:80 check inter 60s rise 5 fall 2
-    server api6 10.10.30.6:80 check inter 60s rise 5 fall 2
-    server api7 10.10.30.7:80 check inter 60s rise 5 fall 2
-    server api8 10.10.30.8:80 check inter 60s rise 5 fall 2
-    server api9 10.10.30.9:80 check inter 60s rise 5 fall 2
-    server api10 10.10.30.10:80 check inter 60s rise 5 fall 2
     ...
   </pre>
   </div>
@@ -238,7 +247,7 @@
   </div>
     
   <div class="step" data-x="-1750" data-y="6700">
-    <img src="/img/haproxy_webui.png">
+    <img src="img/haproxy_webui.png">
   </div>
 
   <div class="step" data-x="-1750" data-y="7000">
@@ -254,7 +263,7 @@
   </div>
   
   <div class="step" data-x="-750" data-y="6700">
-    <img src="/img/stats_socket.png">
+    <img src="img/stats_socket.png">
   </div>
 
   <div class="step" data-x="-750" data-y="7100">
@@ -316,7 +325,7 @@
     static            nginx8	         UP       1  
     static            nginx9	         UP       1  
     static            nginx10	         UP       1  
-    static            BACKEND              UP       9  
+    static            BACKEND            UP       9  
     ...
     </pre>
   </div>
@@ -367,11 +376,11 @@
       ./haproxyctl "show health"
     # pxname        svname               status  weight
     http            FRONTEND             OPEN
-    api             api1                 DOWN    1
+    api             api1                 MAINT   1
     api             api2                 UP      1
     api             api3                 UP      1
     api             BACKEND              UP      2
-    abusers         api1                 DOWN    1
+    abusers         api1                 MAINT   1
     abusers         api2                 UP      1
     abusers         api3                 UP      1
     abusers         BACKEND              UP      2
@@ -379,82 +388,93 @@
   </div>
     
   
-  <div class="slide step" data-x="2750" data-y="8310">
-    <q> and more, too ... 
+  <div class="step" data-x="2750" data-y="8310">
+    First Ruby project for work (at the time), a lot to be improved<br />
+    Shared via blog post and SCaLE 10x's DevOps Day
+  </div>
+  
+  <div class="step" data-x="4000" data-y="6100">
+    My favorite pull request ever
+  </div>
+
+  <div class="step" data-x="4000" data-y="6450">
+    "...I like your project and where you've gone with it. But this project needs tests... Badly. I'll start contributing some, once I gem-ify this, as I'm not sticking this in production without any :)." - <a href='https://github.com/flores/haproxyctl/pull/1' target='_blank'>@sgonyea</a>
+  </div>
+
+  <div class="step" data-x="4000" data-y="7010">
+    A contribution that is more than code:
     <ul>
-      <li>Ruby gem (rhapr)</li>
-      <li>manage multiple HAProxies</li>
-      <li>easy libs</li>
+      <li>* split the script into readable libraries</li>
+      <li>* general Ruby lessons and Rubyisms</li>
+      <li>* still a reference for me today</li>
     </ul>
-    </q>
   </div>
 
-  <div class="step" data-x="-750" data-y="7500" data-scale="2">
-    Links!
+  <div class="step" data-x="4000" data-y="7410">
+    Support multiple instances of HAProxy, contributed by <a href='https://github.com/flores/haproxyctl/pull/4/files' target='_blank'>@jbarbuto</a>
   </div>
 
-  <div class="step" data-x="-1750" data-y="7700">
-    <q>
-    HAProxy:<br/>
-    <a href="http://haproxy.1wt.eu/">haproxy.1wt.eu</a>
-    </q>
+  <div class="step" data-x="5500" data-y="6100">
+    <a href='https://github.com/flores/haproxyctl/pull/9/files' target='_blank'>@osterman</a> made it a grown up RubyGem<br />
+    (I did not think it was good enough)
+  </div>
+  
+  <div class="step" data-x="5500" data-y="6450">
+    <img src='img/rubygems201501.png' alt="ruby gem stats">
+  </div>
+  
+  <div class="step" data-x="5500" data-y="7010">
+    <a href='https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=739008' target='_blank'>@hggh</a> packages and maintains it for Debian</a>
   </div>
 
-  <div class="step" data-x="-1750" data-y="7850">
-    <q>
-    haproxy_join: <a href="https://github.com/joewilliams/haproxy_join">github.com/joewilliams/haproxy_join</a>
-    </q>
+  <div class="step" data-x="5500" data-y="7410">
+    <strong>Easy to get on your box:</strong><br />
+    Debian Jessie and current sid/unstable:
+      <pre>apt-get install haproxyctl</pre>
+    Rubygems:
+      <pre>gem install haproxyctl</pre>
+    Easy shell script:
+      <pre>haproxy_src_install.sh</pre>
+  </div>
+
+
+
+  <div class="step" data-x="-770" data-y="7500" data-scale="2">
+    Thanks!
   </div>
 
   <div class="step" data-x="-1750" data-y="8000">
-    <q>
-      <a href='https://github.com/finnlabs/haproxy'>github.com/finnlabs/haproxy</a>
-    </q>
+    Contributors:
+    <ul>
+      <li><a href="https://github.com/sgonyea">Scott Gonyea aka <code>sgonyea</code></a></li>
+      <li><a href="https://github.com/blovett">Ben Lovett aka <code>blovett</code></a></li>
+      <li><a href="https://github.com/jbarbuto">John A. Barbuto aka <code>jbarbuto</code></a></li>
+      <li><a href="https://github.com/till">Till Klampaeckel aka <code>till</code></a></li>
+      <li><a href="https://github.com/osterman">Erik Osterman aka <code>osterman</code></a></li>
+      <li><a href="https://github.com/mhald">Martin Hald aka <code>mhald</code></a></li>
+      <li><a href="https://github.com/deniedboarding">deniedboarding</a></li>
+      <li><a href="https://github.com/blewa">Aaron Blew aka <code>blewa</code></a></li>
+      <li><a href="https://github.com/nicobrevin">Nick Griffiths aka <code>nicobrevin</code></a></li>
+      <li><a href="https://github.com/fh">Florian Holzhauer aka <code>fh</code></a></li>
+      <li><a href="https://github.com/hggh">Jonas Genannt aka <code>hggh</code></a></li>
+    </ul>
+ 
   </div>
 
-  <div class="step" data-x="-750" data-y="7750">
-    <q>
-    haproxyctl:<br/>
-    <a href="https://github.com/flores/haproxyctl">github.com/flores/haproxyctl</a>
-    </q>
-  </div>
-
-  <div class="step" data-x="-750" data-y="7900">
-    <q>
-    rhapr:<br/>
-    <a href="https://github.com/sgonyea/rhapr">github.com/sgonyea/rhapr</a>
-    </q>
-  </div>
-
-  <div class="step" data-x="-1250" data-y="8200">
-    <q>
-    <a href="http://meetup.com/ladevops">meetup.com/ladevops</a>
-    </q>
+  <div class="step" data-x="-750" data-y="7700">
+    Contact info:
+    <ul>
+      <li><a href="https://twitter.com/lolcatstevens">twitter.com/lolcatstevens</a></li>
+      <li><a href="https://github.com/flores">github.com/flores</a></li>
+      <li><a href="mailto:lo@js.la">lo@js.la</a></li>
+    </ul>
   </div>
   
-  <div class="step" data-x="-1500" data-y="8400">
-    <q>
-    lo@spire.io
-    </q>
-  </div>
-
-  <div class="step" data-x="-1150" data-y="8400">
-    <q>
-    @lolcatstevens
-    </q>
-  </div>
-  
-  <div class="step" data-x="-700" data-y="8400">
-    <q>
-    <a href="https://github.com/flores">github.com/flores</a>
-    </q>
-  </div>
-
   <div class="step" data-x="-1250" data-y="7950" data-scale="2"> 
   </div>
 
   </div>
-  <script src="https://raw.github.com/flores/impress.js/master/js/impress.js"></script>
+  <script src="js/impress.js"></script>
 	
 
 
